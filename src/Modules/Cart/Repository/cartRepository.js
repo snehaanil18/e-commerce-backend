@@ -14,6 +14,11 @@ const cartRepository = {
     async getUserCart(userId){
         const res = await carts.find({userId})
         return res
+    },
+
+    async deleteCartItem(productID,userId){
+        const res = await carts.findOneAndDelete({productID, userId})
+        return res
     }
 
 }

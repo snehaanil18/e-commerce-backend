@@ -27,13 +27,18 @@ const userController = {
     async loginUser(req,res){
         try{
             const {email,password} = req.body;
+            
             const existingUser = await userRepository.findUserbyEmail(email);
+
             if(!existingUser){
                 res.status(400).json({success:false, message: 'User with given email does not exist'})
             }
 
             const decryptedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64);
+            
+
             if(decryptedPassword == existingUser.password){
+ 
                 const token = jwt.sign(
                     { userId: existingUser._id },
                     process.env.JWT_SECRET
