@@ -14,5 +14,8 @@ router.post('/all-products',productController.getAllProducts)
 router.post('/get-product',jwtMiddleware,productController.getAProduct)
 
 router.post('/add-to-cart',jwtMiddleware,cartController.addToCart)
+router.post('/get-user-cart',jwtMiddleware,cartController.getUserCart)
+router.post('/increment-cart',jwtMiddleware,cartController.incrementCart)
+router.post('/decrement-cart',jwtMiddleware,cartController.decrementCart)
 
 export default router;
