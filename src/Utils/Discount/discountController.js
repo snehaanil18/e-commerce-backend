@@ -195,6 +195,24 @@ const discountController = {
                 await cartRepository.deleteCartItem('PF4',userId)
             }
         }
+        else if(productID == 'PF5'){
+            const cartItem = await cartRepository.getCart('PF5',userId)
+            cartItem.quantity = cartItem.quantity - 1
+            cartItem.totalamount = cartItem.quantity*price
+            if(cartItem.quantity == 2){
+                let discount = (cartItem.totalamount*10)/100
+                cartItem.totalamount = cartItem.totalamount - discount
+                cartItem.save()
+            }
+            else if(cartItem.quantity >= 4){
+                let discount = (cartItem.totalamount*20)/100
+                cartItem.totalamount = cartItem.totalamount - discount
+                cartItem.save()
+            }
+            else{
+                cartItem.save()
+            }
+        }
         else{
             const cartItem = await cartRepository.getCart(productID,userId)
             cartItem.quantity = cartItem.quantity - 1
