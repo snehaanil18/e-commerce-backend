@@ -178,6 +178,23 @@ const discountController = {
             }
 
         }
+        else if(productID == 'PF4'){
+            const cartItem = await cartRepository.getCart('PF4',userId)
+            cartItem.quantity = cartItem.quantity - 1
+            cartItem.totalamount = cartItem.quantity*price
+            cartItem.save()
+            if(cartItem.quantity<=0){
+                if(products.includes('PF6')){
+                    const item = await cartRepository.getCart('PF6',userId)
+                    if(item.coupons.includes('CB1')){
+                        item.totalamount = item.price*item.quantity
+                        item.coupons.pop('CB1')
+                        await item.save()
+                    }
+                }
+                await cartRepository.deleteCartItem('PF4',userId)
+            }
+        }
         else{
             const cartItem = await cartRepository.getCart(productID,userId)
             cartItem.quantity = cartItem.quantity - 1
