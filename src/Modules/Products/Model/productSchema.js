@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
     },
     image:{
         type:String
-    }
+    } 
 })
 
 const products = mongoose.model('products',productSchema);

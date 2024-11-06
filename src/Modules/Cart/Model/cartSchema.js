@@ -27,6 +27,9 @@ const cartSchema = new mongoose.Schema({
     coupons:{
         type: [String],
     },
+    staus:{
+        type: String,
+    },
     userId:{
         type:String,
         required:true
