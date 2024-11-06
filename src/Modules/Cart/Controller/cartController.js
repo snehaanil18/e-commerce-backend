@@ -4,37 +4,29 @@ import discountController from "../../../Utils/Discount/discountController.js";
 const cartController = {
     async addToCart(req,res){
         const {name,productID,image,price} = req.body; 
-        let quantity = 1       
-        const userId = req.payload
+        let quantity = 1;
+        const userId = req.payload;
         try{
             const existCart = await cartRepository.getCart(productID,userId)
-
-            if(existCart != null){
-
+            if(existCart){
                 res.status(200).json({sucess:false,message:"Product already in cart"}) 
             }
             else{ 
                 const values = await discountController.handleDiscount(productID,userId,price,quantity)
-
-                
                 let newquantity = values.quantity
                 let totalamount = values.totalamount
                 const addProduct = await cartRepository.addItem(name,productID,newquantity,image,price,totalamount,userId)
                res.status(200).json({success:true, message:'Product added successfully',product:addProduct})
-               
-                
             }
-            
         }
         catch(error){
             console.log(error);
-            
             res.status(500).json({success:false,details:error,message:'Server error'})
         } 
     },
 
     async incrementCart(req,res){
-        const {name,productID,image,price} = req.body; 
+        const {name,productID,price} = req.body; 
         const userId = req.payload;
         let quantity = 1
         try{
@@ -47,7 +39,6 @@ const cartController = {
         }
         catch(error){
             console.log(error);
-            
             res.status(500).json({success:false,details:error,message:'Server error'})
         } 
     },
@@ -73,6 +64,7 @@ const cartController = {
             let cartTotal = 0
             if(cartDetails.length > 0){
                 await discountController.combinedDiscount(userId)
+                
                 cartDetails = await cartRepository.getUserCart(userId)
                 if(cartDetails.length == 5){
                     const result = await discountController.discountfive(userId);
@@ -99,8 +91,7 @@ const cartController = {
             }
             else{
                 res.status(201).json({success:true, message:'Cart is empty'})
-            }
-            
+            }  
         }
         catch(error){
             console.log(error);

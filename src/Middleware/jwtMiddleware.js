@@ -4,6 +4,7 @@ const jwtMiddleware = (req,res,next) => {
     
     try{
 
+        // console.log('Inside',req.headers);
         
     //get token from the request header   
     const token = req.headers['authorization'].slice(7)
